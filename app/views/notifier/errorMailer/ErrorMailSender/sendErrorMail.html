@@ -1,0 +1,508 @@
+<html>
+	<head>
+		<title>${errorInApp}</title>
+		<style>
+			body {
+				letter-spacing: 1px;
+				line-height: 17px;
+				padding: 0;
+				margin: 0;
+				color: #000;
+				font-size: 12px;
+				font-family: monospace;
+				overflow: auto;
+			}
+			h2 {
+				background-color: #f00;
+				padding: 10px 8px;
+				color: #fff;
+				-webkit-box-shadow:  0px 2px 3px 1px rgba(122, 44, 44, 0.6);
+		        box-shadow:  0px 2px 3px 1px rgba(122, 44, 44, 0.6);
+				font-size: 180%;
+				margin: 0 0 10px 0;
+				line-height: 30px;
+			}
+			.msg {
+				border-radius: 10px;
+				padding: 5px;
+				margin: 0 8px 15px 8px;
+				-webkit-box-shadow:  1px 1px 3px 1px rgba(0, 0, 0, 0.3);
+		        box-shadow:  1px 1px 3px 1px rgba(0, 0, 0, 0.3);
+				background: rgb(248,248,248); /* Old browsers */
+				background: -moz-linear-gradient(top, rgba(248,248,248,1) 0%, rgba(255,255,255,1) 100%); /* FF3.6+ */
+				background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(248,248,248,1)), color-stop(100%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
+				background: -webkit-linear-gradient(top, rgba(248,248,248,1) 0%,rgba(255,255,255,1) 100%); /* Chrome10+,Safari5.1+ */
+				background: -o-linear-gradient(top, rgba(248,248,248,1) 0%,rgba(255,255,255,1) 100%); /* Opera 11.10+ */
+				background: -ms-linear-gradient(top, rgba(248,248,248,1) 0%,rgba(255,255,255,1) 100%); /* IE10+ */
+				background: linear-gradient(to bottom, rgba(248,248,248,1) 0%,rgba(255,255,255,1) 100%); /* W3C */
+			}
+			.label {
+				font-weight: bold;
+				font-size: 110%;
+			}
+			.text {
+				color: #363636;
+			}
+			.key {
+				display: block;
+				font-weight: bold;
+				border-right: 1px solid #ccc;
+			}
+			.value {
+				font-size: 90%;
+			}
+			table {
+				border-collapse: collapse;
+				border-right: 1px solid #ccc;
+				border-left: 1px solid #ccc;
+			}
+			table table {
+				border-bottom: 2px solid #999;
+				font-size: 90%;
+			}
+			table table .key {
+				font-size: 95%;
+			}
+			tr, .odd, .even {
+				border-top: 1px solid #ccc;
+				border-bottom: 1px solid #ccc;
+			}
+			.odd {
+				background-color: #e3e3e3;
+			}
+			.even {
+				background-color: #fff;
+			}
+			td, .odd, .even {
+				padding: 2px 5px;
+			}
+		    #source {
+		        background: #f6f6f6;
+		    }
+		    #source .lineNumber {
+		        float: left;
+		        display: block;
+		        width: 40px;
+		        text-align: right;
+		        margin-right: 10px;
+		        font-size: 14px;
+		        font-family: monospace;
+		        background: #333;
+		        color: #fff;
+		    }
+		    #source .line {
+		        clear: both;
+		        color: #333;
+		        margin-bottom: 1px;
+		    }
+		    #source pre {
+		        font-size: 14px;
+		        margin: 0;
+		        overflow-x: hidden;
+		    }
+		    #source .error {
+		        color: #c00 !important;
+		    }
+		    #source .error .lineNumber {
+		        background: #c00;
+		    }
+		    #source a {
+		        text-decoration: none;
+		    }
+		    #source a:hover * {
+		        cursor: pointer !important;
+		    }
+		    #source a:hover pre {
+		        background: #FAFFCF !important;
+		    }
+			#source em {
+				font-style: normal;
+				text-decoration: underline;
+				font-weight: bold;
+			}
+			#source strong {
+				font-style: normal;
+				font-weight: bold;
+			}
+		</style>
+	</head>
+	<body>
+		#{if exception instanceof play.exceptions.PlayException}
+	        <h2>
+	        	${new java.util.Date()}<br/>
+	            ${exception.errorTitle}<br/>
+	            ${exception.getMessage()}<br/>
+	            In ${exception.sourceFile} (around line ${exception.lineNumber})
+	        </h2>
+	        <div class="msg">
+	            ${exception.errorDescription.raw()}<br/>
+		        This exception has been logged with id <strong>${exception.id}</strong>
+		        </div>
+		    #{if exception.sourceAvailable && exception.lineNumber}
+			    <div class="msg">
+					<div class="label">
+						${messages.get('errorMailer.possiblyIncorrectCode')}		
+					</div>
+				    <div id="source" class="block text">
+				    	#{set wideness: 8/}
+				        %{ 
+				            from = exception.lineNumber - wideness >= 0 && exception.lineNumber <= exception.source.size() ? exception.lineNumber - wideness : 0
+				            to = exception.lineNumber + wideness  < exception.source.size() ? exception.lineNumber + wideness : exception.source.size()-1          
+				        }%
+				        #{list items:exception.source[from..to], as:'line'}
+				            ${play.utils.Utils.open(exception.sourceFile, line_index+from) ? ('<a href="' + play.utils.Utils.open(exception.sourceFile, line_index+from) + '">').raw() : ''}
+				                <div class="line ${exception.lineNumber == line_index+from ? 'error':''}">
+				                    <span class="lineNumber">${line_index+from}:</span>
+				                    <pre>&nbsp;${line.escape().toString().replace('&darr;', '<strong>&darr;</strong>').replace('\000', '<em>').replace('\001', '</em>').raw()}</pre>
+				                </div>
+				            ${play.utils.Utils.open(exception.sourceFile, line_index+from) ? '</a>'.raw() : ''}
+				         #{/list}
+				    </div>
+			    </div>
+		    #{/if}
+			%{ moreHtml = exception.moreHTML }%
+			#{if moreHtml}
+				<div id="specific" class="block">
+					${moreHtml.raw()}
+				</div>
+			#{/if}
+		#{/if}
+		#{else}
+			<h2>
+				${new java.util.Date()}<br/>
+				${exception.getMessage()}
+			</h2>
+		#{/else}
+				
+		<div class="msg">
+			<div class="label">
+				${messages.get('errorMailer.Action')}		
+			</div>
+			<div class="text">
+				${theRequest?.action}
+			</div>
+		</div>
+		
+		<div class="msg">
+			<div class="label">
+				${messages.get('errorMailer.Domain')}
+			</div>
+			<div class="text">
+				${theRequest?.domain}
+			</div>
+		</div>
+		
+		<div class="msg">
+			<div class="label">
+				${messages.get('errorMailer.Port')}
+			</div>
+			<div class="text">
+				${theRequest?.port}
+			</div>
+		</div>
+		
+		<div class="msg">
+			<div class="label">
+				${messages.get('errorMailer.URL')}
+			</div>
+			<div class="text">
+				${theRequest?.url}
+			</div>
+		</div>
+		
+		<div class="msg">
+			<div class="label">
+				${messages.get('errorMailer.fullUrl')}
+			</div>
+			<div class="text">
+				#{if theRequest}
+					#{set fullUrl: theRequest?.domain + ":" + theRequest?.port + theRequest?.url/}
+					<a href="${fullUrl.raw()}">${fullUrl.raw()}</a>
+				#{/if}
+				#{else}
+					${messages.get('errorMailer.noRequest')}
+				#{/else}
+			</div>
+		</div>
+		
+		<div class="msg">
+			<div class="label">
+				${messages.get('errorMailer.ContentType')}		
+			</div>
+			<div class="text">
+				${theRequest?.contentType}
+			</div>
+		</div>
+		
+		<div class="msg">
+			<div class="label">
+				${messages.get('errorMailer.encoding')}		
+			</div>
+			<div class="text">
+				${theRequest?.encoding}
+			</div>
+		</div>
+		
+		<div class="msg">
+			<div class="label">
+				${messages.get('errorMailer.isSecure')}		
+			</div>
+			<div class="text">
+				${theRequest?.secure}
+			</div>
+		</div>
+		
+		<div class="msg">
+			<div class="label">
+				${messages.get('errorMailer.allreadySubmitted')}
+			</div>
+			<div class="text">
+				${!theRequest?.isNew}
+			</div>
+		</div>
+		
+		<div class="msg">
+			<div class="label">
+				${messages.get('errorMailer.isAjax')}
+			</div>
+			<div class="text">
+				${theRequest?.isAjax()}
+			</div>
+		</div>
+		
+		<div class="msg">
+			<div class="label">
+				${messages.get('errorMailer.serverHost')}		
+			</div>
+			<div class="text">
+				${theRequest?.host}
+			</div>
+		</div>
+		
+		<div class="msg">
+			<div class="label">
+				${messages.get('errorMailer.remoteAddress')}		
+			</div>
+			<div class="text">
+				${theRequest?.remoteAddress}
+			</div>
+		</div>
+		
+		<div class="msg">
+			<div class="label">
+				${messages.get('errorMailer.ApplicationMode')}
+			</div>
+			<div class="text">
+				${play?.Play?.mode}
+			</div>
+		</div>
+		
+		<div class="msg">
+			<div class="label">
+				${messages.get('errorMailer.languageAcceptedByClient')}
+			</div>
+			<div class="text">
+				#{list theRequest.acceptLanguage()}
+					<div class="${_parity}">
+						${_}
+					</div>
+				#{/}
+			</div>
+		</div>
+		
+		<div class="msg">
+			<div class="label">
+				${messages.get('errorMailer.Params')}
+			</div>
+			<div class="text">
+				<table>
+					#{list params?.data?.entrySet()}
+						<tr class="${_parity}">
+							<td class="key">
+								${_.getKey()}
+							</td>
+							<td class="value">
+								${java.util.Arrays.toString(_.getValue())}
+							</td>
+						</tr>
+					#{/}
+					#{else}
+						<tr>
+							<td>
+								${messages.get('errorMailer.noParams')}
+							</td>
+						</tr>
+					#{/else}
+				</table>
+			</div>
+		</div>
+		
+		<div class="msg">
+			<div class="label">
+				${messages.get('errorMailer.RenderArgs')}
+			</div>
+			<div class="text">
+				<table>
+					#{list renderArgs?.data?.entrySet()}
+						<tr class="${_parity}">
+							<td class="key">
+								${_.getKey()}
+							</td>
+							<td class="value">
+								${java.util.Arrays.toString(_.getValue())}
+							</td>
+						</tr>
+					#{/}
+					#{else}
+						<tr>
+							<td>
+								${messages.get('errorMailer.noRenderArgs')}
+							</td>
+						</tr>
+					#{/else}
+				</table>
+			</div>
+		</div>
+		
+		<div class="msg">
+			<div class="label">
+				${messages.get('errorMailer.Response')}
+			</div>
+			<div class="text">
+				${response?.out?.toString() ?: messages.get('errorMailer.noResponse')}
+			</div>
+		</div>
+		
+		<div class="msg">
+			<div class="label">
+				${messages.get('errorMailer.Cookie')}
+			</div>
+			<div class="text">
+				<table>
+					#{list theRequest?.cookies?.keySet()}
+						<tr class="${_parity}">
+							<td class="key">
+								${_}
+							</td>
+							<td class="value">
+								#{set cookie: theRequest?.cookies?.get(_)/}
+								<table>
+									<tr class="odd">
+										<td class="key">
+											${messages.get('errorMailer.cookie.domain')}
+										</td>
+										<td class="value">
+											${cookie?.domain}
+										</td>
+									</tr>
+									<tr class="even">
+										<td class="key">
+											${messages.get('errorMailer.cookie.httpOnly')}
+										</td>
+										<td class="value">
+											${cookie?.httpOnly}
+										</td>
+									</tr>
+									<tr class="odd">
+										<td class="key">
+											${messages.get('errorMailer.cookie.maxAge')}
+										</td>
+										<td class="value">
+											${cookie?.maxAge}
+										</td>
+									</tr>
+									<tr class="even">
+										<td class="key">
+											${messages.get('errorMailer.cookie.name')}
+										</td>
+										<td class="value">
+											${cookie?.name}
+										</td>
+									</tr>
+									<tr class="odd">
+										<td class="key">
+											${messages.get('errorMailer.cookie.path')}
+										</td>
+										<td class="value">
+											${cookie?.path}
+										</td>
+									</tr>
+									<tr class="even">
+										<td class="key">
+											${messages.get('errorMailer.cookie.secure')}
+										</td>
+										<td class="value">
+											${cookie?.secure}
+										</td>
+									</tr>
+									<tr class="odd">
+										<td class="key">
+											${messages.get('errorMailer.cookie.sendOnError')}
+										</td>
+										<td class="value">
+											${cookie?.sendOnError}
+										</td>
+									</tr>
+									<tr class="even">
+										<td class="key">
+											${messages.get('errorMailer.cookie.value')}
+										</td>
+										<td class="value">
+											${cookie?.value}
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					#{/list}
+					#{else}
+						<tr>
+							<td>
+								${messages.get('errorMailer.noCookies')}
+							</td>
+						</tr>
+					#{/else}
+				</table>
+			</div>
+		</div>
+		
+		<div class="msg">
+			<div class="label">
+				${messages.get('errorMailer.Session')}
+			</div>
+			<div class="text">
+				<table>
+					#{set session: play.mvc.Scope.Session.current().all()/}
+					#{list session.keySet()}
+						<tr class="${_parity}">
+							<td class="key">
+								${_}
+							</td>
+							<td class="value">
+								${session.get(_)}
+							</td>
+						</tr>
+					#{/list}
+					#{else}
+						<tr>
+							<td>
+								${messages.get('errorMailer.noSession')}
+							</td>
+						</tr>
+					#{/else}
+				</table>
+			</div>
+		</div>
+		
+		<div class="msg">
+			<div class="label">
+				${messages.get('errorMailer.StackTrace')}
+			</div>
+			<div class="text">
+				#{list notifier.errorMailer.ErrorMailSender.getThrowableMessage(exception)}
+					${_.raw()}
+				#{/}
+			</div>
+		</div>
+	</body>
+</html>

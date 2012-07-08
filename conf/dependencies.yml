@@ -1,0 +1,4 @@
+self: play -> errorMailer 0.1.1
+
+require:
+    - play
