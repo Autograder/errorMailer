@@ -11,6 +11,7 @@ import play.mvc.Http.Response;
 import play.mvc.Mailer;
 import play.mvc.Scope.Params;
 import play.mvc.Scope.RenderArgs;
+import play.mvc.Scope.Session;
 
 public class ErrorMailSender extends Mailer {
 
@@ -41,8 +42,14 @@ public class ErrorMailSender extends Mailer {
 	 * sends an errormail with information to the given exception
 	 * 
 	 * @param exception
+	 * @param response2
+	 * @param renderArgs2
+	 * @param params2
+	 * @param request
 	 */
-	public static void sendErrorMail(final Throwable exception) {
+	public static void sendErrorMail(final Throwable exception,
+			Request request, Params params, RenderArgs renderArgs,
+			Response response, Session session) {
 		if (Play.mode == Mode.DEV && sendOnDev == false) {
 			return;
 		}
@@ -53,18 +60,19 @@ public class ErrorMailSender extends Mailer {
 		for (String addr : to) {
 			addRecipient(addr);
 		}
-		String errorInApp = Messages.get("errorIn%s",
-				Play.configuration.getProperty("application.name"));
+		String errorInApp = Messages.get("%serrorIn%s", exception.getClass()
+				.getSimpleName(), Play.configuration
+				.getProperty("application.name"));
+		if (request != null) {
+			errorInApp += " on server " + request.host;
+		}
 		setSubject(errorInApp);
-		Request theRequest = Request.current();
-		Params params = Params.current();
-		RenderArgs renderArgs = RenderArgs.current();
 		List<String> lines = null;
 		if (exception != null) {
 			lines = getThrowableMessage(exception);
 		}
-		Response response = Response.current();
-		send(theRequest, params, renderArgs, response, exception, lines, errorInApp);
+		send(request, params, renderArgs, response, exception, lines,
+				errorInApp, session);
 	}
 
 	/**

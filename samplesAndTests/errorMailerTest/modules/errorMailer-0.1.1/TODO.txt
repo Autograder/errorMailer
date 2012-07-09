@@ -1,4 +1,0 @@
-Textemail template
-Static initialization of ErrorMailSender with propertycheck and exceptions
-Documentation
-Gitrepo

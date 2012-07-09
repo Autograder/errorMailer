@@ -179,7 +179,7 @@
 				${messages.get('errorMailer.Action')}		
 			</div>
 			<div class="text">
-				${theRequest?.action}
+				${request?.action}
 			</div>
 		</div>
 		
@@ -188,7 +188,7 @@
 				${messages.get('errorMailer.Domain')}
 			</div>
 			<div class="text">
-				${theRequest?.domain}
+				${request?.domain}
 			</div>
 		</div>
 		
@@ -197,7 +197,7 @@
 				${messages.get('errorMailer.Port')}
 			</div>
 			<div class="text">
-				${theRequest?.port}
+				${request?.port}
 			</div>
 		</div>
 		
@@ -206,7 +206,7 @@
 				${messages.get('errorMailer.URL')}
 			</div>
 			<div class="text">
-				${theRequest?.url}
+				${request?.url}
 			</div>
 		</div>
 		
@@ -215,8 +215,8 @@
 				${messages.get('errorMailer.fullUrl')}
 			</div>
 			<div class="text">
-				#{if theRequest}
-					#{set fullUrl: theRequest?.domain + ":" + theRequest?.port + theRequest?.url/}
+				#{if request}
+					#{set fullUrl: request?.domain + ":" + request?.port + request?.url/}
 					<a href="${fullUrl.raw()}">${fullUrl.raw()}</a>
 				#{/if}
 				#{else}
@@ -230,7 +230,7 @@
 				${messages.get('errorMailer.ContentType')}		
 			</div>
 			<div class="text">
-				${theRequest?.contentType}
+				${request?.contentType}
 			</div>
 		</div>
 		
@@ -239,7 +239,7 @@
 				${messages.get('errorMailer.encoding')}		
 			</div>
 			<div class="text">
-				${theRequest?.encoding}
+				${request?.encoding}
 			</div>
 		</div>
 		
@@ -248,7 +248,7 @@
 				${messages.get('errorMailer.isSecure')}		
 			</div>
 			<div class="text">
-				${theRequest?.secure}
+				${request?.secure}
 			</div>
 		</div>
 		
@@ -257,7 +257,7 @@
 				${messages.get('errorMailer.allreadySubmitted')}
 			</div>
 			<div class="text">
-				${!theRequest?.isNew}
+				${!request?.isNew}
 			</div>
 		</div>
 		
@@ -266,7 +266,7 @@
 				${messages.get('errorMailer.isAjax')}
 			</div>
 			<div class="text">
-				${theRequest?.isAjax()}
+				${request?.isAjax()}
 			</div>
 		</div>
 		
@@ -275,7 +275,7 @@
 				${messages.get('errorMailer.serverHost')}		
 			</div>
 			<div class="text">
-				${theRequest?.host}
+				${request?.host}
 			</div>
 		</div>
 		
@@ -284,7 +284,7 @@
 				${messages.get('errorMailer.remoteAddress')}		
 			</div>
 			<div class="text">
-				${theRequest?.remoteAddress}
+				${request?.remoteAddress}
 			</div>
 		</div>
 		
@@ -302,7 +302,7 @@
 				${messages.get('errorMailer.languageAcceptedByClient')}
 			</div>
 			<div class="text">
-				#{list theRequest.acceptLanguage()}
+				#{list request.acceptLanguage()}
 					<div class="${_parity}">
 						${_}
 					</div>
@@ -379,13 +379,13 @@
 			</div>
 			<div class="text">
 				<table>
-					#{list theRequest?.cookies?.keySet()}
+					#{list request?.cookies?.keySet()}
 						<tr class="${_parity}">
 							<td class="key">
 								${_}
 							</td>
 							<td class="value">
-								#{set cookie: theRequest?.cookies?.get(_)/}
+								#{set cookie: request?.cookies?.get(_)/}
 								<table>
 									<tr class="odd">
 										<td class="key">
@@ -472,14 +472,13 @@
 			</div>
 			<div class="text">
 				<table>
-					#{set session: play.mvc.Scope.Session.current().all()/}
-					#{list session.keySet()}
+					#{list session?.all()?.keySet()}
 						<tr class="${_parity}">
 							<td class="key">
 								${_}
 							</td>
 							<td class="value">
-								${session.get(_)}
+								${session?.all().get(_)}
 							</td>
 						</tr>
 					#{/list}
