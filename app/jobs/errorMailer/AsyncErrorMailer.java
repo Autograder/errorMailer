@@ -11,12 +11,12 @@ import play.mvc.Scope.Session;
 
 public class AsyncErrorMailer extends Job {
 
-	static int limitCount;
-	static int minutes;
+	static int limitCount = 0;
+	static int minutes = 0;
 	static boolean limitsenabled = true;
 	
 	static {
-		if(Play.configuration.getProperty("errorMailer.limit.enabled").equalsIgnoreCase("true")) {
+		if("true".equalsIgnoreCase(Play.configuration.getProperty("errorMailer.limit.enabled"))) {
 			Integer tmp = Integer.parseInt(Play.configuration.getProperty("errorMailer.limit.minutes"));
 			if(tmp == null || tmp <= 0) {
 				throw new RuntimeException("configuration value for key 'errorMailer.limit.minutes' is incorrect");
