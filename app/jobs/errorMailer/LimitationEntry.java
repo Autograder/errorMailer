@@ -7,18 +7,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Used to check if the number of maximum sended similar emails in a time period
+ * is exceeded.
+ */
 public class LimitationEntry {
 
 	static Map<String, List<LimitationEntry>> entries = new HashMap<String, List<LimitationEntry>>();
 
-	Calendar date;
+	Calendar date = null;
+
 
 	private LimitationEntry(Calendar now) {
 		this.date = now;
 	}
 
-	public static boolean limitNotExceeded(String action, String path,
-			Throwable exception, int minutes, int limitCount) {
+
+	public static boolean limitNotExceeded(String action, String path, Throwable exception,
+			int minutes, int limitCount) {
 		String key = action + path + exception.getClass().getName();
 		List<LimitationEntry> entrylist = entries.get(key);
 		if (entrylist == null) {

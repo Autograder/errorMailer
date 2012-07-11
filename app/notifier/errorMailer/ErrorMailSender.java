@@ -13,10 +13,17 @@ import play.mvc.Scope.Params;
 import play.mvc.Scope.RenderArgs;
 import play.mvc.Scope.Session;
 
+/**
+ * The core part of this module. This mailer sends the errormails to the
+ * configured adresses. It caches the configuration in static variables to save
+ * performance
+ */
 public class ErrorMailSender extends Mailer {
 
 	private static boolean sendOnProd = true;
+
 	private static boolean sendOnDev = false;
+
 	private static String from;
 
 	private static String[] to = null;
@@ -36,7 +43,16 @@ public class ErrorMailSender extends Mailer {
 		for (String addr : to) {
 			addr = addr.trim();
 		}
+		/*
+		 * 4 seems to be the shortest valid email adress length:
+		 * http://www.eph.co.uk/resources/email-address-length-faq/
+		 */
+		if (from == null || from.length() < 4 || to == null || to.length == 0) {
+			throw new RuntimeException("could not initialize the ErrorMailSender class, because"
+					+ "of missing or incorrect configuration entries! (from or to email adresses)");
+		}
 	}
+
 
 	/**
 	 * sends an errormail with information to the given exception
@@ -47,9 +63,8 @@ public class ErrorMailSender extends Mailer {
 	 * @param params2
 	 * @param request
 	 */
-	public static void sendErrorMail(final Throwable exception,
-			Request request, Params params, RenderArgs renderArgs,
-			Response response, Session session) {
+	public static void sendErrorMail(final Throwable exception, Request request, Params params,
+			RenderArgs renderArgs, Response response, Session session) {
 		if (Play.mode == Mode.DEV && sendOnDev == false) {
 			return;
 		}
@@ -60,20 +75,16 @@ public class ErrorMailSender extends Mailer {
 		for (String addr : to) {
 			addRecipient(addr);
 		}
-		String errorInApp = Messages.get("%serrorIn%s", exception.getClass()
-				.getSimpleName(), Play.configuration
-				.getProperty("application.name"));
+		String errorInApp = Messages.get("%serrorIn%s", exception.getClass().getSimpleName(),
+				Play.configuration.getProperty("application.name"));
 		if (request != null) {
 			errorInApp += " on server " + request.host;
 		}
 		setSubject(errorInApp);
-		List<String> lines = null;
-		if (exception != null) {
-			lines = getThrowableMessage(exception);
-		}
-		send(request, params, renderArgs, response, exception, lines,
-				errorInApp, session);
+		List<String> lines = getThrowableMessage(exception);
+		send(request, params, renderArgs, response, exception, lines, errorInApp, session);
 	}
+
 
 	/**
 	 * goes recursively through the throwable over getCause() and returns a
@@ -85,13 +96,14 @@ public class ErrorMailSender extends Mailer {
 	public static List<String> getThrowableMessage(final Throwable t) {
 		List<String> lines = new ArrayList<String>();
 		Throwable cause = t;
-		lines.add(cause.getMessage() + "<br/>\n");
+		lines.add(cause.getMessage() + "\n");
 		do {
 			lines.add(getStackTrace(cause));
 			cause = cause.getCause();
 		} while (cause != null);
 		return lines;
 	}
+
 
 	/**
 	 * helperfunction for getThrowableMessage(final Throable t);
@@ -110,8 +122,7 @@ public class ErrorMailSender extends Mailer {
 				sb.append("even");
 			}
 			paginate = !paginate;
-			sb.append("\">")
-					.append(elem.toString().replaceAll("\\.", ".<wbr/>"))
+			sb.append("\">").append(elem.toString().replaceAll("\\.", ".<wbr/>"))
 					.append("</div>\n");
 		}
 		return sb.append("<hr/>").toString();
