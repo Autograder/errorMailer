@@ -81,24 +81,23 @@ public class ErrorMailSender extends Mailer {
 			errorInApp += " on server " + request.host;
 		}
 		setSubject(errorInApp);
-		List<String> lines = getThrowableMessage(exception);
-		send(request, params, renderArgs, response, exception, lines, errorInApp, session);
+		send(request, params, renderArgs, response, exception, errorInApp, session);
 	}
 
 
 	/**
 	 * goes recursively through the throwable over getCause() and returns a
-	 * List<Throwable.getStackTrace> with html tags
+	 * List<Throwable.getStackTrace> with or without html tags
 	 * 
 	 * @param t
-	 * @return List<throwable.getMessage()> with html tags
+	 * @return List<throwable.getMessage()> with or without html tags
 	 */
-	public static List<String> getThrowableMessage(final Throwable t) {
+	public static List<String> getThrowableMessage(final Throwable t, boolean isHtml) {
 		List<String> lines = new ArrayList<String>();
 		Throwable cause = t;
 		lines.add(cause.getMessage() + "\n");
 		do {
-			lines.add(getStackTrace(cause));
+			lines.add(getStackTrace(cause, isHtml));
 			cause = cause.getCause();
 		} while (cause != null);
 		return lines;
@@ -111,20 +110,28 @@ public class ErrorMailSender extends Mailer {
 	 * @param t
 	 * @return
 	 */
-	public static String getStackTrace(final Throwable t) {
+	public static String getStackTrace(final Throwable t, boolean isHtml) {
 		boolean paginate = true;
 		StringBuilder sb = new StringBuilder();
 		for (StackTraceElement elem : t.getStackTrace()) {
-			sb.append("<div class=\"");
-			if (paginate) {
-				sb.append("odd");
+			if(isHtml) {
+				sb.append("<div class=\"");
+				if (paginate) {
+					sb.append("odd");
+				} else {
+					sb.append("even");
+				}
+				paginate = !paginate;
+				sb.append("\">").append(elem.toString().replaceAll("\\.", ".<wbr/>"))
+						.append("</div>\n");
 			} else {
-				sb.append("even");
+				sb.append(elem.toString()).append("\n");
 			}
-			paginate = !paginate;
-			sb.append("\">").append(elem.toString().replaceAll("\\.", ".<wbr/>"))
-					.append("</div>\n");
 		}
-		return sb.append("<hr/>").toString();
+		if(isHtml) {
+			return sb.append("<hr/>").toString();
+		} else {
+			return sb.toString();
+		}
 	}
 }

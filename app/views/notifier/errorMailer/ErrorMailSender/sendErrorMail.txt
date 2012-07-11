@@ -1,1 +1,108 @@
-Textversion not supported yet
+${errorInApp}
+#{if exception instanceof play.exceptions.PlayException}
+${new java.util.Date()}
+${exception.errorTitle}
+${exception.getMessage()}
+${exception.sourceFile} (around line ${exception.lineNumber})
+${exception.errorDescription.raw()}
+This exception has been logged with id <strong>${exception.id}</strong>
+		        
+#{if exception.sourceAvailable && exception.lineNumber}
+${messages.get('errorMailer.possiblyIncorrectCode')}
+#{set wideness: 8/}#{set from: exception.lineNumber - wideness >= 0 && exception.lineNumber <= exception.source.size() ? exception.lineNumber - wideness : 0 /}
+#{set to = exception.lineNumber + wideness  < exception.source.size() ? exception.lineNumber + wideness : exception.source.size()-1 /}  
+#{list items:exception.source[from..to], as:'line'}${exception.lineNumber == line_index+from ? '>>> exception raised in:\n' + (line_index+from) : (line_index+from)}: ${line.escape().toString().raw()}
+#{/list}#{/if}#{set moreHtml: exception.moreHTML /}#{if moreHtml}
+${moreHtml.raw()}#{/if}
+#{/if}#{else}
+${new java.util.Date()}
+${exception.getMessage()}
+#{/else}
+				
+${messages.get('errorMailer.Action')}		
+${request?.action}
+			
+${messages.get('errorMailer.Domain')}
+${request?.domain}
+			
+${messages.get('errorMailer.Port')}
+${request?.port}
+
+${messages.get('errorMailer.URL')}
+${request?.url}
+			
+${messages.get('errorMailer.fullUrl')}
+#{if request}#{set fullUrl: request?.domain + ":" + request?.port + request?.url/}${fullUrl.raw()}#{/if}#{else}${messages.get('errorMailer.noRequest')}#{/else}
+
+
+${messages.get('errorMailer.ContentType')}		
+${request?.contentType}
+			
+${messages.get('errorMailer.encoding')}		
+${request?.encoding}
+			
+${messages.get('errorMailer.isSecure')}		
+${request?.secure}
+			
+${messages.get('errorMailer.allreadySubmitted')}
+${!request?.isNew}
+			
+${messages.get('errorMailer.isAjax')}
+${request?.isAjax()}
+
+${messages.get('errorMailer.serverHost')}		
+${request?.host}
+			
+${messages.get('errorMailer.remoteAddress')}		
+${request?.remoteAddress}
+			
+${messages.get('errorMailer.ApplicationMode')}
+${play?.Play?.mode}
+			
+${messages.get('errorMailer.languageAcceptedByClient')}
+#{list request.acceptLanguage()}${_}, #{/list}
+
+
+${messages.get('errorMailer.Params')}
+#{list params?.data?.entrySet()}
+  ${_.getKey()}: ${java.util.Arrays.toString(_.getValue())}
+  #{/list}#{else}
+${messages.get('errorMailer.noParams')}#{/else}
+
+
+${messages.get('errorMailer.RenderArgs')}
+#{list renderArgs?.data?.entrySet()}
+  ${_.getKey()}: ${java.util.Arrays.toString(_.getValue())}
+  #{/list}
+#{else}
+${messages.get('errorMailer.noRenderArgs')}#{/else}
+			
+${messages.get('errorMailer.Response')}
+${response?.out?.toString() ?: messages.get('errorMailer.noResponse')}
+
+${messages.get('errorMailer.Cookie')}
+#{list request?.cookies?.keySet()}
+  ${_}
+#{set cookie: request?.cookies?.get(_)/}
+    ${messages.get('errorMailer.cookie.domain')}: ${cookie?.domain}
+    ${messages.get('errorMailer.cookie.httpOnly')}: ${cookie?.httpOnly}
+    ${messages.get('errorMailer.cookie.maxAge')}: ${cookie?.maxAge}
+    ${messages.get('errorMailer.cookie.name')}: ${cookie?.name}
+    ${messages.get('errorMailer.cookie.path')}: ${cookie?.path}
+    ${messages.get('errorMailer.cookie.secure')}: ${cookie?.secure}
+    ${messages.get('errorMailer.cookie.sendOnError')}: ${cookie?.sendOnError}
+    ${messages.get('errorMailer.cookie.value')}: ${cookie?.value}
+  ------------------
+
+#{/list}#{else}
+${messages.get('errorMailer.noCookies')}#{/else}
+		
+${messages.get('errorMailer.Session')}
+#{list session?.all()?.keySet()}
+${_}: ${session?.all().get(_)}
+#{/list}#{else}
+${messages.get('errorMailer.noSession')}#{/else}
+
+
+${messages.get('errorMailer.StackTrace')}#{list notifier.errorMailer.ErrorMailSender.getThrowableMessage(exception, false)}
+${_.raw()}#{/list}

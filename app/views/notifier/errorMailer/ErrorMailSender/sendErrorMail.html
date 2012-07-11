@@ -145,10 +145,9 @@
 					</div>
 				    <div id="source" class="block text">
 				    	#{set wideness: 8/}
-				        %{ 
-				            from = exception.lineNumber - wideness >= 0 && exception.lineNumber <= exception.source.size() ? exception.lineNumber - wideness : 0
-				            to = exception.lineNumber + wideness  < exception.source.size() ? exception.lineNumber + wideness : exception.source.size()-1          
-				        }%
+				        #{set from: exception.lineNumber - wideness >= 0 && exception.lineNumber <= exception.source.size() ? exception.lineNumber - wideness : 0 /}
+				        #{set to = exception.lineNumber + wideness  < exception.source.size() ? exception.lineNumber + wideness : exception.source.size()-1 /}  
+				        
 				        #{list items:exception.source[from..to], as:'line'}
 				            ${play.utils.Utils.open(exception.sourceFile, line_index+from) ? ('<a href="' + play.utils.Utils.open(exception.sourceFile, line_index+from) + '">').raw() : ''}
 				                <div class="line ${exception.lineNumber == line_index+from ? 'error':''}">
@@ -498,7 +497,7 @@
 				${messages.get('errorMailer.StackTrace')}
 			</div>
 			<div class="text">
-				#{list notifier.errorMailer.ErrorMailSender.getThrowableMessage(exception)}
+				#{list notifier.errorMailer.ErrorMailSender.getThrowableMessage(exception, true)}
 					${_.raw()}<br/>
 				#{/list}
 			</div>
