@@ -1,5 +1,5 @@
 # Saved by @messages on Sun Jul 08 10:35:06 CEST 2012
-errorIn%s=An exception raised in %s
+%serrorIn%s=A %s raised in %s
 errorMailer.Action=Action
 errorMailer.ApplicationMode=Applicationmode
 errorMailer.ContentType=Content type
