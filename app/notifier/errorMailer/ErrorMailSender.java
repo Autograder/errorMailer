@@ -24,7 +24,7 @@ public class ErrorMailSender extends Mailer {
 
 	private static boolean sendOnDev = false;
 
-	private static String from;
+	private static String from = null;
 
 	private static String[] to = null;
 
