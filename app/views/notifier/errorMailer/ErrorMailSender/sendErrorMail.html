@@ -306,7 +306,7 @@
 					<div class="${_parity}">
 						${_}
 					</div>
-				#{/}
+				#{/list}
 			</div>
 		</div>
 		
@@ -325,7 +325,7 @@
 								${java.util.Arrays.toString(_.getValue())}
 							</td>
 						</tr>
-					#{/}
+					#{/list}
 					#{else}
 						<tr>
 							<td>
@@ -352,7 +352,7 @@
 								${java.util.Arrays.toString(_.getValue())}
 							</td>
 						</tr>
-					#{/}
+					#{/list}
 					#{else}
 						<tr>
 							<td>
@@ -500,7 +500,7 @@
 			<div class="text">
 				#{list notifier.errorMailer.ErrorMailSender.getThrowableMessage(exception)}
 					${_.raw()}
-				#{/}
+				#{/list}
 			</div>
 		</div>
 	</body>
