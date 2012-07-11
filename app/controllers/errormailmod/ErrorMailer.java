@@ -1,7 +1,6 @@
-package controllers.errorMailer;
+package controllers.errormailmod;
 
-import jobs.errorMailer.AsyncErrorMailer;
-import notifier.errorMailer.ErrorMailSender;
+import jobs.errormailmod.AsyncErrorMailer;
 import play.mvc.Catch;
 import play.mvc.Controller;
 import play.mvc.Scope.Session;

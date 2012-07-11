@@ -1,4 +1,4 @@
-package notifier.errorMailer;
+package notifier.errormailmod;
 
 import java.util.ArrayList;
 import java.util.List;

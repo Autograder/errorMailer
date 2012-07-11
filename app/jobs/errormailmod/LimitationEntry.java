@@ -1,4 +1,4 @@
-package jobs.errorMailer;
+package jobs.errormailmod;
 
 import java.util.ArrayList;
 import java.util.Calendar;

@@ -1,4 +1,4 @@
-package jobs.errorMailer;
+package jobs.errormailmod;
 
 import notifier.errorMailer.ErrorMailSender;
 import play.Play;
