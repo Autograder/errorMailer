@@ -104,5 +104,5 @@ ${_}: ${session?.all().get(_)}
 ${messages.get('errorMailer.noSession')}#{/else}
 
 
-${messages.get('errorMailer.StackTrace')}#{list notifier.errormailmod.ErrorMailSender.getThrowableMessage(exception, false)}
+${messages.get('errorMailer.StackTrace')}#{list notifier.hermes.ErrorMailSender.getThrowableMessage(exception, false)}
 ${_.raw()}#{/list}

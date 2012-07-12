@@ -1,4 +1,4 @@
-package jobs.errormailmod;
+package jobs.hermes;
 
 import java.util.ArrayList;
 import java.util.Calendar;

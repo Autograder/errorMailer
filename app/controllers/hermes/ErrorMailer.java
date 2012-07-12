@@ -1,6 +1,6 @@
-package controllers.errormailmod;
+package controllers.hermes;
 
-import jobs.errormailmod.AsyncErrorMailer;
+import jobs.hermes.AsyncErrorMailer;
 import play.mvc.Catch;
 import play.mvc.Controller;
 import play.mvc.Scope.Session;

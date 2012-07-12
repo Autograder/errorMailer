@@ -1,4 +1,4 @@
-package notifier.errormailmod;
+package notifier.hermes;
 
 import java.util.ArrayList;
 import java.util.List;

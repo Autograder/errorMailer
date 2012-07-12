@@ -1,6 +1,6 @@
-package jobs.errormailmod;
+package jobs.hermes;
 
-import notifier.errorMailer.ErrorMailSender;
+import notifier.hermes.ErrorMailSender;
 import play.Play;
 import play.jobs.Job;
 import play.mvc.Http.Request;
