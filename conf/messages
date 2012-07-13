@@ -39,3 +39,5 @@ errorMailer.RamUsage = Ram usage
 errorMailer.CpuInfo = CPU Information
 errorMailer.CpuInfo.load = CPU load
 errorMailer.CpuInfo.nrProcessors = available processors
+errorMailer.Header = HTTP header
+errorMailer.noHeader = The request object is null or has no headers

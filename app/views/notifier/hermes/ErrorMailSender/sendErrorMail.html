@@ -494,6 +494,37 @@
 		
 		<div class="msg">
 			<div class="label">
+				${messages.get('errorMailer.Header')}
+			</div>
+			<div class="text">
+				<table>
+					#{list request?.headers?.keySet()}
+						<tr class="${_parity}">
+							<td class="key">
+								${request?.headers?.get(_)?.name}
+							</td>
+							<td class="value">
+								<table>
+									#{list request?.headers?.get(_)?.values}
+									<tr><td>${_}</td></tr>
+									#{/list}
+								</table>
+							</td>
+						</tr>
+					#{/list}
+					#{else}
+						<tr>
+							<td>
+								${messages.get('errorMailer.noHeaders')}
+							</td>
+						</tr>
+					#{/else}
+				</table>
+			</div>
+		</div>
+		
+		<div class="msg">
+			<div class="label">
 				${messages.get('errorMailer.StackTrace')}
 			</div>
 			<div class="text">

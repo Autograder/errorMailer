@@ -11,7 +11,7 @@ This exception has been logged with id <strong>${exception.id}</strong>
 ${messages.get('errorMailer.possiblyIncorrectCode')}
 #{set wideness: 8/}#{set from: exception.lineNumber - wideness >= 0 && exception.lineNumber <= exception.source.size() ? exception.lineNumber - wideness : 0 /}
 #{set to = exception.lineNumber + wideness  < exception.source.size() ? exception.lineNumber + wideness : exception.source.size()-1 /}  
-#{list items:exception.source[from..to], as:'line'}${exception.lineNumber == line_index+from ? '>>> exception raised in:\n' + (line_index+from) : (line_index+from)}: ${line.escape().toString().raw()}
+#{list items:exception.source[from..to], as:'line'}${exception.lineNumber == line_index+from ? '>>> exception raised in:\n' + (line_index+from) : (line_index+from)}: ${line.toString().raw()}
 #{/list}#{/if}#{set moreHtml: exception.moreHTML /}#{if moreHtml}
 ${moreHtml.raw()}#{/if}
 #{/if}#{else}
@@ -102,6 +102,14 @@ ${messages.get('errorMailer.Session')}
 ${_}: ${session?.all().get(_)}
 #{/list}#{else}
 ${messages.get('errorMailer.noSession')}#{/else}
+
+
+${messages.get('errorMailer.Header')}
+#{list request?.headers?.keySet()}
+  ${request?.headers?.get(_)?.name}
+#{list request?.headers?.get(_)?.values}    ${_}
+#{/list}#{/list}
+#{else}${messages.get('errorMailer.noHeaders')}#{/else}
 
 
 ${messages.get('errorMailer.StackTrace')}#{list notifier.hermes.ErrorMailSender.getThrowableMessage(exception, false)}
