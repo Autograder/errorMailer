@@ -1,6 +1,7 @@
 package jobs.hermes;
 
 import helper.hermes.ExclusionHandler;
+import helper.hermes.SysInfo;
 import notifier.hermes.ErrorMailSender;
 import play.Play;
 import play.jobs.Job;
@@ -57,22 +58,25 @@ public class AsyncErrorMailer extends Job {
 
 	Session session;
 
+	SysInfo sysInfo;
+
 
 	public AsyncErrorMailer(Request request, Params params, Throwable exception,
-			RenderArgs renderArgs, Response response, Session session) {
+			RenderArgs renderArgs, Response response, Session session, SysInfo sysInfo) {
 		this.request = request;
 		this.params = params;
 		this.exception = exception;
 		this.renderArgs = renderArgs;
 		this.response = response;
 		this.session = session;
+		this.sysInfo = sysInfo;
 	}
 
 
 	public void doJob() {
 		String errorKey = getErrorKey(request, exception);
 		// check exclusions
-		if(ExclusionHandler.isExcluded(errorKey)) {
+		if (ExclusionHandler.isExcluded(errorKey)) {
 			return;
 		}
 
@@ -80,11 +84,11 @@ public class AsyncErrorMailer extends Job {
 		if (limitsenabled) {
 			if (LimitationEntry.limitNotExceeded(errorKey, minutes, limitCount)) {
 				ErrorMailSender.sendErrorMail(exception, request, params, renderArgs, response,
-						session);
+						session, sysInfo);
 			}
 		} else {
-			ErrorMailSender
-					.sendErrorMail(exception, request, params, renderArgs, response, session);
+			ErrorMailSender.sendErrorMail(exception, request, params, renderArgs, response,
+					session, sysInfo);
 		}
 	}
 

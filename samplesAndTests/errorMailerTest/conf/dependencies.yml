@@ -2,7 +2,7 @@
 
 require:
     - play
-    - mkmod -> errorMailer 0.1.2f
+    - mkmod -> errorMailer 0.1.3b
     
 repositories:
      - mkmod:

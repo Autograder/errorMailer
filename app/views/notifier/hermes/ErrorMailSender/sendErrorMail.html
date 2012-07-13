@@ -502,5 +502,27 @@
 				#{/list}
 			</div>
 		</div>
+		<div class="msg">
+			<div class="label">
+				${messages.get('errorMailer.RamUsage')}
+			</div>
+			<div class="text">
+				#{set nf: new java.text.DecimalFormat("#0.00") /}
+				${sysInfo?.getFreeMemory() ? nf?.format(sysInfo.getFreeMemory()) : 'na'} MB free<br>
+				${sysInfo?.getTotalMemory() ? nf?.format(sysInfo.getTotalMemory()) : 'na'} MB total<br>
+				${sysInfo?.getMaxMemory() ? nf?.format(sysInfo.getMaxMemory()) : 'na'} MB max<br>
+			</div>
+		</div>
+		
+		<div class="msg">
+			<div class="label">
+				${messages.get('errorMailer.CpuInfo')}
+			</div>
+			<div class="text">
+				${messages.get('errorMailer.CpuInfo.load')} ${sysInfo?.getLoadAvg() >= 0 ? sysInfo?.getLoadAvg() : 'not supported by your server'}<br>
+				${messages.get('errorMailer.CpuInfo.nrProcessors')} ${sysInfo?.getAvailableProcessors()}<br>
+			</div>
+		</div>
+		
 	</body>
 </html>

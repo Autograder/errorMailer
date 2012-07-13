@@ -35,3 +35,7 @@ errorMailer.noSession=No variables are stored in session
 errorMailer.possiblyIncorrectCode=Possibly incorrect code
 errorMailer.remoteAddress=Remote address
 errorMailer.serverHost=Serverhostname
+errorMailer.RamUsage = Ram usage
+errorMailer.CpuInfo = CPU Information
+errorMailer.CpuInfo.load = CPU load
+errorMailer.CpuInfo.nrProcessors = available processors

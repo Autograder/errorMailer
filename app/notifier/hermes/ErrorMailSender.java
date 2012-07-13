@@ -1,5 +1,7 @@
 package notifier.hermes;
 
+import helper.hermes.SysInfo;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,7 +66,7 @@ public class ErrorMailSender extends Mailer {
 	 * @param request
 	 */
 	public static void sendErrorMail(final Throwable exception, Request request, Params params,
-			RenderArgs renderArgs, Response response, Session session) {
+			RenderArgs renderArgs, Response response, Session session, SysInfo sysInfo) {
 		if (Play.mode == Mode.DEV && sendOnDev == false) {
 			return;
 		}
@@ -81,7 +83,7 @@ public class ErrorMailSender extends Mailer {
 			errorInApp += " on server " + request.host;
 		}
 		setSubject(errorInApp);
-		send(request, params, renderArgs, response, exception, errorInApp, session);
+		send(request, params, renderArgs, response, exception, errorInApp, session, sysInfo);
 	}
 
 

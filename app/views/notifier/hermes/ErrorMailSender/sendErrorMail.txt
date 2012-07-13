@@ -106,3 +106,15 @@ ${messages.get('errorMailer.noSession')}#{/else}
 
 ${messages.get('errorMailer.StackTrace')}#{list notifier.hermes.ErrorMailSender.getThrowableMessage(exception, false)}
 ${_.raw()}#{/list}
+
+
+${messages.get('errorMailer.RamUsage')}
+#{set nf: new java.text.DecimalFormat("#0.00") /}
+${sysInfo?.getFreeMemory() ? nf?.format(sysInfo.getFreeMemory()) : 'na'} MB free
+${sysInfo?.getTotalMemory() ? nf?.format(sysInfo.getTotalMemory()) : 'na'} MB total
+${sysInfo?.getMaxMemory() ? nf?.format(sysInfo.getMaxMemory()) : 'na'} MB max
+
+${messages.get('errorMailer.CpuInfo')}
+${messages.get('errorMailer.CpuInfo.load')} ${sysInfo?.getLoadAvg() >= 0 ? sysInfo?.getLoadAvg() : 'not supported by your server'}
+${messages.get('errorMailer.CpuInfo.nrProcessors')} ${sysInfo?.getAvailableProcessors()}
+
