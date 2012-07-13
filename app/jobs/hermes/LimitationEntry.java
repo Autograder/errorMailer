@@ -23,10 +23,8 @@ public class LimitationEntry {
 	}
 
 
-	public static boolean limitNotExceeded(String action, String path, Throwable exception,
-			int minutes, int limitCount) {
-		String key = action + path + exception.getClass().getName();
-		List<LimitationEntry> entrylist = entries.get(key);
+	public static boolean limitNotExceeded(String errorKey, int minutes, int limitCount) {
+		List<LimitationEntry> entrylist = entries.get(errorKey);
 		if (entrylist == null) {
 			entrylist = new ArrayList<LimitationEntry>();
 		}
@@ -43,7 +41,7 @@ public class LimitationEntry {
 		}
 
 		// check if limit is exceeded
-		entries.put(key, entrylist);
+		entries.put(errorKey, entrylist);
 		if (entrylist.size() <= limitCount + 1) {
 			entrylist.add(new LimitationEntry(now));
 			return true;

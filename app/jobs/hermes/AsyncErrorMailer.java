@@ -1,5 +1,6 @@
 package jobs.hermes;
 
+import helper.hermes.ExclusionHandler;
 import notifier.hermes.ErrorMailSender;
 import play.Play;
 import play.jobs.Job;
@@ -40,7 +41,7 @@ public class AsyncErrorMailer extends Job {
 		}
 	}
 
-	/* 
+	/*
 	 * needed to have this variables in an async job. Request.current() for
 	 * example wouldn't return any Request
 	 */
@@ -69,12 +70,15 @@ public class AsyncErrorMailer extends Job {
 
 
 	public void doJob() {
-		// TODO: check exclusions
+		String errorKey = getErrorKey(request, exception);
+		// check exclusions
+		if(ExclusionHandler.isExcluded(errorKey)) {
+			return;
+		}
 
 		// check limitations
 		if (limitsenabled) {
-			if (LimitationEntry.limitNotExceeded(request.action, request.path, exception, minutes,
-					limitCount)) {
+			if (LimitationEntry.limitNotExceeded(errorKey, minutes, limitCount)) {
 				ErrorMailSender.sendErrorMail(exception, request, params, renderArgs, response,
 						session);
 			}
@@ -82,6 +86,11 @@ public class AsyncErrorMailer extends Job {
 			ErrorMailSender
 					.sendErrorMail(exception, request, params, renderArgs, response, session);
 		}
+	}
+
+
+	public static String getErrorKey(Request request, Throwable e) {
+		return request.action + request.path + e.getClass().getName() + e.getMessage();
 	}
 
 }
