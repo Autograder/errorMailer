@@ -40,7 +40,7 @@ public class ErrorMailSender extends Mailer {
 			sendOnProd = false;
 		}
 		from = Play.configuration.getProperty("errormailer.from");
-		prop = Play.configuration.getProperty("errormailer.to");
+		prop = Play.configuration.getProperty("errormailer.to", "");
 		to = prop.split(",");
 		for (String addr : to) {
 			addr = addr.trim();
