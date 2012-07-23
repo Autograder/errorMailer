@@ -31,11 +31,11 @@ public class ErrorMailSender extends Mailer {
 	private static String[] to = null;
 
 	static {
-		String prop = Play.configuration.getProperty("errormailer.sendondev");
+		String prop = Play.configuration.getProperty("errormailer.sendondev", "false");
 		if (prop.equalsIgnoreCase("true")) {
 			sendOnDev = true;
 		}
-		prop = Play.configuration.getProperty("errormailer.sendonprod");
+		prop = Play.configuration.getProperty("errormailer.sendonprod", "true");
 		if (prop.equalsIgnoreCase("false")) {
 			sendOnProd = false;
 		}
