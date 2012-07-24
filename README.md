@@ -51,6 +51,7 @@ Minimal setup:
 
 
 All configuration options
+
     #application.conf
 
     #OPTIONAL DUE DEFAULTS
