@@ -1,3 +1,6 @@
+/**
+ * @author maklemenz
+ */
 package helper.hermes;
 
 import java.lang.management.ManagementFactory;

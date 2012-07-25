@@ -1,3 +1,6 @@
+/**
+ * @author maklemenz
+ */
 package notifier.hermes;
 
 import helper.hermes.SysInfo;
@@ -51,7 +54,8 @@ public class ErrorMailSender extends Mailer {
 		 */
 		if (from == null || from.length() < 4 || to == null || to.length == 0) {
 			throw new RuntimeException("could not initialize the ErrorMailSender class, because"
-					+ "of missing or incorrect configuration entries! (from or to email adresses)");
+					+ "of missing or incorrect configuration entries!"
+					+ "(errormailer.from or errormailer.to email adresses missing)");
 		}
 	}
 

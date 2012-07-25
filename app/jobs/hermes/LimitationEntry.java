@@ -1,3 +1,6 @@
+/**
+ * @author maklemenz
+ */
 package jobs.hermes;
 
 import java.util.ArrayList;
