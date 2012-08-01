@@ -50,8 +50,8 @@ ${!request?.isNew}
 ${messages.get('errorMailer.isAjax')}
 ${request?.isAjax()}
 
-${messages.get('errorMailer.serverHost')}		
-${request?.host}
+${messages.get('errorMailer.serverHost')}	
+${localhostname}
 			
 ${messages.get('errorMailer.remoteAddress')}		
 ${request?.remoteAddress}

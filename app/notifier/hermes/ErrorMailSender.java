@@ -8,6 +8,7 @@ import helper.hermes.SysInfo;
 import java.util.ArrayList;
 import java.util.List;
 
+import play.Logger;
 import play.Play;
 import play.Play.Mode;
 import play.i18n.Messages;
@@ -87,7 +88,20 @@ public class ErrorMailSender extends Mailer {
 			errorInApp += " on server " + request.host;
 		}
 		setSubject(errorInApp);
-		send(request, params, renderArgs, response, exception, errorInApp, session, sysInfo);
+		// get the hostname of this mashine (try to find FQN)
+		String localhostname = request.host;
+		try {
+			localhostname = java.net.InetAddress.getLocalHost().getCanonicalHostName();
+		} catch (Exception e) {
+			try {
+				localhostname = java.net.InetAddress.getLocalHost().getHostName();
+			} catch (Exception e2) {
+				Logger.error(e, "cannot retrieve the hostname of this mashine.");
+			}
+			
+		}
+				
+		send(request, params, renderArgs, response, exception, errorInApp, session, sysInfo, localhostname);
 	}
 
 
