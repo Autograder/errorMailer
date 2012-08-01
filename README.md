@@ -30,7 +30,7 @@ Some of the informations you will see on 500-response:
 
     require:
         - play
-        - mkmod -> errorMailer 0.1.4
+        - mkmod -> errorMailer 0.1.5
         
     repositories:
          - mkmod:
