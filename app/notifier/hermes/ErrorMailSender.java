@@ -78,16 +78,6 @@ public class ErrorMailSender extends Mailer {
 		if (Play.mode == Mode.PROD && sendOnProd == false) {
 			return;
 		}
-		setFrom(from);
-		for (String addr : to) {
-			addRecipient(addr);
-		}
-		String errorInApp = Messages.get("%serrorIn%s", exception.getClass().getSimpleName(),
-				Play.configuration.getProperty("application.name"));
-		if (request != null) {
-			errorInApp += " on server " + request.host;
-		}
-		setSubject(errorInApp);
 		// get the hostname of this mashine (try to find FQN)
 		String localhostname = request.host;
 		try {
@@ -100,7 +90,17 @@ public class ErrorMailSender extends Mailer {
 			}
 			
 		}
-				
+		setFrom(from);
+		for (String addr : to) {
+			addRecipient(addr);
+		}
+		String errorInApp = Messages.get("%serrorIn%s", exception.getClass().getSimpleName(),
+				Play.configuration.getProperty("application.name"));
+		if (request != null) {
+			errorInApp += " on server " + localhostname + ":" + request.port;
+		}
+		setSubject(errorInApp);
+
 		send(request, params, renderArgs, response, exception, errorInApp, session, sysInfo, localhostname);
 	}
 
