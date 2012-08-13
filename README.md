@@ -25,6 +25,22 @@ Some of the informations you will see on 500-response:
     ...some more
  
 #Step 1: Add the errorMailer to the dependencies.
+        
+     # Application dependencies
+
+    require:
+        - play
+        - errorMailer -> errorMailer 0.1.5
+        
+        
+    repositories:
+         - errorMailer:
+            type: http
+            artifact:  https://github.com/downloads/maklemenz/errorMailer/[module]-[revision].zip
+            contains:
+            - mkmod -> *
+        
+Or using my dropbox (deprecated)
 
     # Application dependencies
 
