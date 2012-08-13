@@ -30,7 +30,7 @@ Some of the informations you will see on 500-response:
 
     require:
         - play
-        - errorMailer -> errorMailer 0.1.5
+        - errorMailer -> errorMailer 0.1.6
         
         
     repositories:
@@ -46,7 +46,7 @@ Or using my dropbox (deprecated)
 
     require:
         - play
-        - mkmod -> errorMailer 0.1.5
+        - mkmod -> errorMailer 0.1.6
         
     repositories:
          - mkmod:
