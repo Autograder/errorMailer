@@ -30,15 +30,15 @@ Some of the informations you will see on 500-response:
 
     require:
         - play
-        - errorMailer -> errorMailer 0.1.6
+        - maklemenz -> errorMailer 0.1.6
         
         
     repositories:
-         - errorMailer:
+         - maklemenz:
             type: http
-            artifact:  https://github.com/downloads/maklemenz/errorMailer/[module]-[revision].zip
+            artifact:  https://github.com/downloads/maklemenz/[module]/[module]-[revision].zip
             contains:
-            - mkmod -> *
+            - maklemenz -> *
         
 Or using my dropbox (deprecated)
 
