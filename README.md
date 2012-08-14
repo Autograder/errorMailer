@@ -36,9 +36,10 @@ Some of the informations you will see on 500-response:
     repositories:
          - maklemenz:
             type: http
-            artifact:  https://github.com/downloads/maklemenz/[module]/[module]-[revision].zip
+            artifact:  http://cloud.github.com/downloads/maklemenz/[module]/[module]-[revision].zip
             contains:
             - maklemenz -> *
+
         
 Or using my dropbox (deprecated)
 
