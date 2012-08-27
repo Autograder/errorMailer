@@ -16,4 +16,5 @@ mv $DEPBAK $DEP
 
 scp dist/* root@vsvr1.no-ip.biz:/var/www/playmodules/
 
+git add dist/*
 
