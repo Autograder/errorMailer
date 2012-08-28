@@ -103,9 +103,7 @@ If all your controller extends a kind of BaseController.class, you just have to 
     @With(ErrorMailer.class)
 
 #License
-Apache License
-Version 2.0, January 2004
-http://www.apache.org/licenses/
 
+Apache2
 
   [1]: http://dl.dropbox.com/u/17394524/playmodules/errorMailer.example.html
