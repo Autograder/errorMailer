@@ -19,7 +19,7 @@ ${new java.util.Date()}
 ${exception.getMessage()}
 #{/else}
 				
-${messages.get('errorMailer.Action')}		
+${messages.get('errorMailer.Action')}
 ${request?.action}
 			
 ${messages.get('errorMailer.Domain')}
@@ -35,16 +35,16 @@ ${messages.get('errorMailer.fullUrl')}
 #{if request}#{set fullUrl: request?.domain + ":" + request?.port + request?.url/}${fullUrl.raw()}#{/if}#{else}${messages.get('errorMailer.noRequest')}#{/else}
 
 
-${messages.get('errorMailer.ContentType')}		
+${messages.get('errorMailer.ContentType')}
 ${request?.contentType}
 			
-${messages.get('errorMailer.encoding')}		
+${messages.get('errorMailer.encoding')}	
 ${request?.encoding}
 			
 ${messages.get('errorMailer.isSecure')}		
 ${request?.secure}
 			
-${messages.get('errorMailer.allreadySubmitted')}
+${messages.get('errorMailer.isNew')}
 ${!request?.isNew}
 			
 ${messages.get('errorMailer.isAjax')}
