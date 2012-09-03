@@ -1,4 +1,4 @@
-self: play -> errorMailer 0.1.6
+self: play -> errorMailer 0.1.7
 
 require:
     - play
