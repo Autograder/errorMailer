@@ -79,7 +79,7 @@ public class ErrorMailSender extends Mailer {
 			return;
 		}
 		// get the hostname of this mashine (try to find FQN)
-		String localhostname = request.host;
+		String localhostname = request != null ? request.host : "localhost";
 		try {
 			localhostname = java.net.InetAddress.getLocalHost().getCanonicalHostName();
 		} catch (Exception e) {
