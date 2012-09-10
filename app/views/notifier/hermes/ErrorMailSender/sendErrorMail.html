@@ -321,7 +321,7 @@
 								${_.getKey()}
 							</td>
 							<td class="value">
-								${java.util.Arrays.toString(_.getValue())}
+								#{if _?.getValue()}${java.util.Arrays.toString(_.getValue())}#{/if}
 							</td>
 						</tr>
 					#{/list}
