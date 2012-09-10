@@ -65,14 +65,14 @@ ${messages.get('errorMailer.languageAcceptedByClient')}
 
 ${messages.get('errorMailer.Params')}
 #{list params?.data?.entrySet()}
-  ${_.getKey()}: #{if _?.getValue()}${java.util.Arrays.toString(_.getValue())}#{/if}
+  ${_.getKey()}: #{if _?.getValue()}${java.util.Arrays.toString(_.getValue()?:{""})}#{/if}
   #{/list}#{else}
 ${messages.get('errorMailer.noParams')}#{/else}
 
 
 ${messages.get('errorMailer.RenderArgs')}
 #{list renderArgs?.data?.entrySet()}
-  ${_.getKey()}: ${java.util.Arrays.toString(_.getValue())}
+  ${_.getKey()}: #{if _?.getValue()}${java.util.Arrays.toString(_.getValue()?:{""})}#{/if}
   #{/list}
 #{else}
 ${messages.get('errorMailer.noRenderArgs')}#{/else}
