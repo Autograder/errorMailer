@@ -141,12 +141,12 @@
 		    #{if exception.sourceAvailable && exception.lineNumber}
 			    <div class="msg">
 					<div class="label">
-						${messages.get('errorMailer.possiblyIncorrectCode')}		
+						${messages?.get('errorMailer.possiblyIncorrectCode')}
 					</div>
 				    <div id="source" class="block text">
 				    	#{set wideness: 8/}
 				        #{set from: exception.lineNumber - wideness >= 0 && exception.lineNumber <= exception.source.size() ? exception.lineNumber - wideness : 0 /}
-				        #{set to = exception.lineNumber + wideness  < exception.source.size() ? exception.lineNumber + wideness : exception.source.size()-1 /}  
+				        #{set to = exception.lineNumber + wideness  < exception.source.size() ? exception.lineNumber + wideness : exception.source.size()-1 /}
 				        
 				        #{list items:exception.source[from..to], as:'line'}
 				            ${play.utils.Utils.open(exception.sourceFile, line_index+from) ? ('<a href="' + play.utils.Utils.open(exception.sourceFile, line_index+from) + '">').raw() : ''}
@@ -175,7 +175,7 @@
 				
 		<div class="msg">
 			<div class="label">
-				${messages.get('errorMailer.Action')}		
+				${messages?.get('errorMailer.Action')}		
 			</div>
 			<div class="text">
 				${request?.action}
@@ -184,7 +184,7 @@
 		
 		<div class="msg">
 			<div class="label">
-				${messages.get('errorMailer.Domain')}
+				${messages?.get('errorMailer.Domain')}
 			</div>
 			<div class="text">
 				${request?.domain}
@@ -193,7 +193,7 @@
 		
 		<div class="msg">
 			<div class="label">
-				${messages.get('errorMailer.Port')}
+				${messages?.get('errorMailer.Port')}
 			</div>
 			<div class="text">
 				${request?.port}
@@ -202,7 +202,7 @@
 		
 		<div class="msg">
 			<div class="label">
-				${messages.get('errorMailer.URL')}
+				${messages?.get('errorMailer.URL')}
 			</div>
 			<div class="text">
 				${request?.url}
@@ -211,7 +211,7 @@
 		
 		<div class="msg">
 			<div class="label">
-				${messages.get('errorMailer.fullUrl')}
+				${messages?.get('errorMailer.fullUrl')}
 			</div>
 			<div class="text">
 				#{if request}
@@ -219,14 +219,14 @@
 					<a href="${fullUrl.raw()}">${fullUrl.raw()}</a>
 				#{/if}
 				#{else}
-					${messages.get('errorMailer.noRequest')}
+					${messages?.get('errorMailer.noRequest')}
 				#{/else}
 			</div>
 		</div>
 		
 		<div class="msg">
 			<div class="label">
-				${messages.get('errorMailer.ContentType')}		
+				${messages?.get('errorMailer.ContentType')}		
 			</div>
 			<div class="text">
 				${request?.contentType}
@@ -235,7 +235,7 @@
 		
 		<div class="msg">
 			<div class="label">
-				${messages.get('errorMailer.encoding')}		
+				${messages?.get('errorMailer.encoding')}		
 			</div>
 			<div class="text">
 				${request?.encoding}
@@ -244,7 +244,7 @@
 		
 		<div class="msg">
 			<div class="label">
-				${messages.get('errorMailer.isSecure')}		
+				${messages?.get('errorMailer.isSecure')}		
 			</div>
 			<div class="text">
 				${request?.secure}
@@ -253,7 +253,7 @@
 		
 		<div class="msg">
 			<div class="label">
-				${messages.get('errorMailer.isNew')}
+				${messages?.get('errorMailer.isNew')}
 			</div>
 			<div class="text">
 				${!request?.isNew}
@@ -262,7 +262,7 @@
 		
 		<div class="msg">
 			<div class="label">
-				${messages.get('errorMailer.isAjax')}
+				${messages?.get('errorMailer.isAjax')}
 			</div>
 			<div class="text">
 				${request?.isAjax()}
@@ -271,7 +271,7 @@
 		
 		<div class="msg">
 			<div class="label">
-				${messages.get('errorMailer.serverHost')}		
+				${messages?.get('errorMailer.serverHost')}		
 			</div>
 			<div class="text">
 				${localhostname}
@@ -280,7 +280,7 @@
 		
 		<div class="msg">
 			<div class="label">
-				${messages.get('errorMailer.remoteAddress')}		
+				${messages?.get('errorMailer.remoteAddress')}		
 			</div>
 			<div class="text">
 				${request?.remoteAddress}
@@ -289,7 +289,7 @@
 		
 		<div class="msg">
 			<div class="label">
-				${messages.get('errorMailer.ApplicationMode')}
+				${messages?.get('errorMailer.ApplicationMode')}
 			</div>
 			<div class="text">
 				${play?.Play?.mode}
@@ -298,7 +298,7 @@
 		
 		<div class="msg">
 			<div class="label">
-				${messages.get('errorMailer.languageAcceptedByClient')}
+				${messages?.get('errorMailer.languageAcceptedByClient')}
 			</div>
 			<div class="text">
 				#{list request.acceptLanguage()}
@@ -311,7 +311,7 @@
 		
 		<div class="msg">
 			<div class="label">
-				${messages.get('errorMailer.Params')}
+				${messages?.get('errorMailer.Params')}
 			</div>
 			<div class="text">
 				<table>
@@ -328,7 +328,7 @@
 					#{else}
 						<tr>
 							<td>
-								${messages.get('errorMailer.noParams')}
+								${messages?.get('errorMailer.noParams')}
 							</td>
 						</tr>
 					#{/else}
@@ -338,7 +338,7 @@
 		
 		<div class="msg">
 			<div class="label">
-				${messages.get('errorMailer.RenderArgs')}
+				${messages?.get('errorMailer.RenderArgs')}
 			</div>
 			<div class="text">
 				<table>
@@ -355,7 +355,7 @@
 					#{else}
 						<tr>
 							<td>
-								${messages.get('errorMailer.noRenderArgs')}
+								${messages?.get('errorMailer.noRenderArgs')}
 							</td>
 						</tr>
 					#{/else}
@@ -365,16 +365,16 @@
 		
 		<div class="msg">
 			<div class="label">
-				${messages.get('errorMailer.Response')}
+				${messages?.get('errorMailer.Response')}
 			</div>
 			<div class="text">
-				${response?.out?.toString() ?: messages.get('errorMailer.noResponse')}
+				${response?.out?.toString() ?: messages?.get('errorMailer.noResponse')}
 			</div>
 		</div>
 		
 		<div class="msg">
 			<div class="label">
-				${messages.get('errorMailer.Cookie')}
+				${messages?.get('errorMailer.Cookie')}
 			</div>
 			<div class="text">
 				<table>
@@ -388,7 +388,7 @@
 								<table>
 									<tr class="odd">
 										<td class="key">
-											${messages.get('errorMailer.cookie.domain')}
+											${messages?.get('errorMailer.cookie.domain')}
 										</td>
 										<td class="value">
 											${cookie?.domain}
@@ -396,7 +396,7 @@
 									</tr>
 									<tr class="even">
 										<td class="key">
-											${messages.get('errorMailer.cookie.httpOnly')}
+											${messages?.get('errorMailer.cookie.httpOnly')}
 										</td>
 										<td class="value">
 											${cookie?.httpOnly}
@@ -404,7 +404,7 @@
 									</tr>
 									<tr class="odd">
 										<td class="key">
-											${messages.get('errorMailer.cookie.maxAge')}
+											${messages?.get('errorMailer.cookie.maxAge')}
 										</td>
 										<td class="value">
 											${cookie?.maxAge}
@@ -412,7 +412,7 @@
 									</tr>
 									<tr class="even">
 										<td class="key">
-											${messages.get('errorMailer.cookie.name')}
+											${messages?.get('errorMailer.cookie.name')}
 										</td>
 										<td class="value">
 											${cookie?.name}
@@ -420,7 +420,7 @@
 									</tr>
 									<tr class="odd">
 										<td class="key">
-											${messages.get('errorMailer.cookie.path')}
+											${messages?.get('errorMailer.cookie.path')}
 										</td>
 										<td class="value">
 											${cookie?.path}
@@ -428,7 +428,7 @@
 									</tr>
 									<tr class="even">
 										<td class="key">
-											${messages.get('errorMailer.cookie.secure')}
+											${messages?.get('errorMailer.cookie.secure')}
 										</td>
 										<td class="value">
 											${cookie?.secure}
@@ -436,7 +436,7 @@
 									</tr>
 									<tr class="odd">
 										<td class="key">
-											${messages.get('errorMailer.cookie.sendOnError')}
+											${messages?.get('errorMailer.cookie.sendOnError')}
 										</td>
 										<td class="value">
 											${cookie?.sendOnError}
@@ -444,7 +444,7 @@
 									</tr>
 									<tr class="even">
 										<td class="key">
-											${messages.get('errorMailer.cookie.value')}
+											${messages?.get('errorMailer.cookie.value')}
 										</td>
 										<td class="value">
 											${cookie?.value}
@@ -457,7 +457,7 @@
 					#{else}
 						<tr>
 							<td>
-								${messages.get('errorMailer.noCookies')}
+								${messages?.get('errorMailer.noCookies')}
 							</td>
 						</tr>
 					#{/else}
@@ -467,7 +467,7 @@
 		
 		<div class="msg">
 			<div class="label">
-				${messages.get('errorMailer.Session')}
+				${messages?.get('errorMailer.Session')}
 			</div>
 			<div class="text">
 				<table>
@@ -484,7 +484,7 @@
 					#{else}
 						<tr>
 							<td>
-								${messages.get('errorMailer.noSession')}
+								${messages?.get('errorMailer.noSession')}
 							</td>
 						</tr>
 					#{/else}
@@ -494,7 +494,7 @@
 		
 		<div class="msg">
 			<div class="label">
-				${messages.get('errorMailer.Header')}
+				${messages?.get('errorMailer.Header')}
 			</div>
 			<div class="text">
 				<table>
@@ -515,7 +515,7 @@
 					#{else}
 						<tr>
 							<td>
-								${messages.get('errorMailer.noHeaders')}
+								${messages?.get('errorMailer.noHeaders')}
 							</td>
 						</tr>
 					#{/else}
@@ -525,7 +525,7 @@
 		
 		<div class="msg">
 			<div class="label">
-				${messages.get('errorMailer.StackTrace')}
+				${messages?.get('errorMailer.StackTrace')}
 			</div>
 			<div class="text">
 				#{list notifier.hermes.ErrorMailSender.getThrowableMessage(exception, true)}
@@ -535,7 +535,7 @@
 		</div>
 		<div class="msg">
 			<div class="label">
-				${messages.get('errorMailer.RamUsage')}
+				${messages?.get('errorMailer.RamUsage')}
 			</div>
 			<div class="text">
 				#{set nf: new java.text.DecimalFormat("#0.00") /}
@@ -547,11 +547,11 @@
 		
 		<div class="msg">
 			<div class="label">
-				${messages.get('errorMailer.CpuInfo')}
+				${messages?.get('errorMailer.CpuInfo')}
 			</div>
 			<div class="text">
-				${messages.get('errorMailer.CpuInfo.load')} ${sysInfo?.getLoadAvg() >= 0 ? sysInfo?.getLoadAvg() : 'not supported by your server'}<br>
-				${messages.get('errorMailer.CpuInfo.nrProcessors')} ${sysInfo?.getAvailableProcessors()}<br>
+				${messages?.get('errorMailer.CpuInfo.load')} ${sysInfo?.getLoadAvg() >= 0 ? sysInfo?.getLoadAvg() : 'not supported by your server'}<br>
+				${messages?.get('errorMailer.CpuInfo.nrProcessors')} ${sysInfo?.getAvailableProcessors()}<br>
 			</div>
 		</div>
 		

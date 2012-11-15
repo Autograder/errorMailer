@@ -8,7 +8,7 @@ ${exception.errorDescription.raw()}
 This exception has been logged with id <strong>${exception.id}</strong>
 		        
 #{if exception.sourceAvailable && exception.lineNumber}
-${messages.get('errorMailer.possiblyIncorrectCode')}
+${messages?.get('errorMailer.possiblyIncorrectCode')}
 #{set wideness: 8/}#{set from: exception.lineNumber - wideness >= 0 && exception.lineNumber <= exception.source.size() ? exception.lineNumber - wideness : 0 /}
 #{set to = exception.lineNumber + wideness  < exception.source.size() ? exception.lineNumber + wideness : exception.source.size()-1 /}  
 #{list items:exception.source[from..to], as:'line'}${exception.lineNumber == line_index+from ? '>>> exception raised in:\n' + (line_index+from) : (line_index+from)}: ${line.toString().raw()}
@@ -19,110 +19,110 @@ ${new java.util.Date()}
 ${exception.getMessage()}
 #{/else}
 				
-${messages.get('errorMailer.Action')}		
+${messages?.get('errorMailer.Action')}		
 ${request?.action}
 			
-${messages.get('errorMailer.Domain')}
+${messages?.get('errorMailer.Domain')}
 ${request?.domain}
 			
-${messages.get('errorMailer.Port')}
+${messages?.get('errorMailer.Port')}
 ${request?.port}
 
-${messages.get('errorMailer.URL')}
+${messages?.get('errorMailer.URL')}
 ${request?.url}
 			
-${messages.get('errorMailer.fullUrl')}
-#{if request}#{set fullUrl: request?.domain + ":" + request?.port + request?.url/}${fullUrl.raw()}#{/if}#{else}${messages.get('errorMailer.noRequest')}#{/else}
+${messages?.get('errorMailer.fullUrl')}
+#{if request}#{set fullUrl: request?.domain + ":" + request?.port + request?.url/}${fullUrl.raw()}#{/if}#{else}${messages?.get('errorMailer.noRequest')}#{/else}
 
 
-${messages.get('errorMailer.ContentType')}		
+${messages?.get('errorMailer.ContentType')}		
 ${request?.contentType}
 			
-${messages.get('errorMailer.encoding')}		
+${messages?.get('errorMailer.encoding')}		
 ${request?.encoding}
 			
-${messages.get('errorMailer.isSecure')}		
+${messages?.get('errorMailer.isSecure')}		
 ${request?.secure}
 			
-${messages.get('errorMailer.isNew')}
+${messages?.get('errorMailer.isNew')}
 ${!request?.isNew}
 			
-${messages.get('errorMailer.isAjax')}
+${messages?.get('errorMailer.isAjax')}
 ${request?.isAjax()}
 
-${messages.get('errorMailer.serverHost')}		
+${messages?.get('errorMailer.serverHost')}		
 ${localhostname}
 			
-${messages.get('errorMailer.remoteAddress')}		
+${messages?.get('errorMailer.remoteAddress')}		
 ${request?.remoteAddress}
 			
-${messages.get('errorMailer.ApplicationMode')}
+${messages?.get('errorMailer.ApplicationMode')}
 ${play?.Play?.mode}
 			
-${messages.get('errorMailer.languageAcceptedByClient')}
+${messages?.get('errorMailer.languageAcceptedByClient')}
 #{list request.acceptLanguage()}${_}, #{/list}
 
 
-${messages.get('errorMailer.Params')}
+${messages?.get('errorMailer.Params')}
 #{list params?.data?.entrySet()}
   ${_.getKey()}: #{if _?.getValue()}${java.util.Arrays.toString(_.getValue()?:{""})}#{/if}
   #{/list}#{else}
-${messages.get('errorMailer.noParams')}#{/else}
+${messages?.get('errorMailer.noParams')}#{/else}
 
 
-${messages.get('errorMailer.RenderArgs')}
+${messages?.get('errorMailer.RenderArgs')}
 #{list renderArgs?.data?.entrySet()}
   ${_.getKey()}: #{if _?.getValue()}${java.util.Arrays.toString(_.getValue()?:{""})}#{/if}
   #{/list}
 #{else}
-${messages.get('errorMailer.noRenderArgs')}#{/else}
+${messages?.get('errorMailer.noRenderArgs')}#{/else}
 			
-${messages.get('errorMailer.Response')}
-${response?.out?.toString() ?: messages.get('errorMailer.noResponse')}
+${messages?.get('errorMailer.Response')}
+${response?.out?.toString() ?: messages?.get('errorMailer.noResponse')}
 
-${messages.get('errorMailer.Cookie')}
+${messages?.get('errorMailer.Cookie')}
 #{list request?.cookies?.keySet()}
   ${_}
 #{set cookie: request?.cookies?.get(_)/}
-    ${messages.get('errorMailer.cookie.domain')}: ${cookie?.domain}
-    ${messages.get('errorMailer.cookie.httpOnly')}: ${cookie?.httpOnly}
-    ${messages.get('errorMailer.cookie.maxAge')}: ${cookie?.maxAge}
-    ${messages.get('errorMailer.cookie.name')}: ${cookie?.name}
-    ${messages.get('errorMailer.cookie.path')}: ${cookie?.path}
-    ${messages.get('errorMailer.cookie.secure')}: ${cookie?.secure}
-    ${messages.get('errorMailer.cookie.sendOnError')}: ${cookie?.sendOnError}
-    ${messages.get('errorMailer.cookie.value')}: ${cookie?.value}
+    ${messages?.get('errorMailer.cookie.domain')}: ${cookie?.domain}
+    ${messages?.get('errorMailer.cookie.httpOnly')}: ${cookie?.httpOnly}
+    ${messages?.get('errorMailer.cookie.maxAge')}: ${cookie?.maxAge}
+    ${messages?.get('errorMailer.cookie.name')}: ${cookie?.name}
+    ${messages?.get('errorMailer.cookie.path')}: ${cookie?.path}
+    ${messages?.get('errorMailer.cookie.secure')}: ${cookie?.secure}
+    ${messages?.get('errorMailer.cookie.sendOnError')}: ${cookie?.sendOnError}
+    ${messages?.get('errorMailer.cookie.value')}: ${cookie?.value}
   ------------------
 
 #{/list}#{else}
-${messages.get('errorMailer.noCookies')}#{/else}
+${messages?.get('errorMailer.noCookies')}#{/else}
 		
-${messages.get('errorMailer.Session')}
+${messages?.get('errorMailer.Session')}
 #{list session?.all()?.keySet()}
 ${_}: ${session?.all().get(_)}
 #{/list}#{else}
-${messages.get('errorMailer.noSession')}#{/else}
+${messages?.get('errorMailer.noSession')}#{/else}
 
 
-${messages.get('errorMailer.Header')}
+${messages?.get('errorMailer.Header')}
 #{list request?.headers?.keySet()}
   ${request?.headers?.get(_)?.name}
 #{list request?.headers?.get(_)?.values}    ${_}
 #{/list}#{/list}
-#{else}${messages.get('errorMailer.noHeaders')}#{/else}
+#{else}${messages?.get('errorMailer.noHeaders')}#{/else}
 
 
-${messages.get('errorMailer.StackTrace')}#{list notifier.hermes.ErrorMailSender.getThrowableMessage(exception, false)}
+${messages?.get('errorMailer.StackTrace')}#{list notifier.hermes.ErrorMailSender.getThrowableMessage(exception, false)}
 ${_.raw()}#{/list}
 
 
-${messages.get('errorMailer.RamUsage')}
+${messages?.get('errorMailer.RamUsage')}
 #{set nf: new java.text.DecimalFormat("#0.00") /}
 ${sysInfo?.getFreeMemory() ? nf?.format(sysInfo.getFreeMemory()) : 'na'} MB free
 ${sysInfo?.getTotalMemory() ? nf?.format(sysInfo.getTotalMemory()) : 'na'} MB total
 ${sysInfo?.getMaxMemory() ? nf?.format(sysInfo.getMaxMemory()) : 'na'} MB max
 
-${messages.get('errorMailer.CpuInfo')}
-${messages.get('errorMailer.CpuInfo.load')} ${sysInfo?.getLoadAvg() >= 0 ? sysInfo?.getLoadAvg() : 'not supported by your server'}
-${messages.get('errorMailer.CpuInfo.nrProcessors')} ${sysInfo?.getAvailableProcessors()}
+${messages?.get('errorMailer.CpuInfo')}
+${messages?.get('errorMailer.CpuInfo.load')} ${sysInfo?.getLoadAvg() >= 0 ? sysInfo?.getLoadAvg() : 'not supported by your server'}
+${messages?.get('errorMailer.CpuInfo.nrProcessors')} ${sysInfo?.getAvailableProcessors()}
 
